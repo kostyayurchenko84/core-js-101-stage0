@@ -96,8 +96,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  return a + b > c && a + c > b && b + c > a;
 }
 
 /**
@@ -132,8 +132,20 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const rect1Top = rect1.top;
+  const rect1Right = rect1.left + rect1.width;
+  const rect1Bottom = rect1.top + rect1.height;
+  const rect1Left = rect1.left;
+
+  const rect2Top = rect2.top;
+  const rect2Right = rect2.left + rect2.width;
+  const rect2Bottom = rect2.top + rect2.height;
+  const rect2Left = rect2.left;
+
+  const overlapX = rect1Right > rect2Left && rect1Left < rect2Right;
+  const overlapY = rect1Top < rect2Bottom && rect1Bottom > rect2Top;
+  return overlapX && overlapY;
 }
 
 /**
@@ -235,8 +247,14 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  let resultStr = '';
+
+  const inputNumber = Math.abs(num).toString();
+  for (let i = inputNumber.length - 1; i >= 0; i -= 1) {
+    resultStr += inputNumber[i];
+  }
+  return Number(resultStr);
 }
 
 /**
