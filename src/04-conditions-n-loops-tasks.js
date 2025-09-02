@@ -295,8 +295,16 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let digitalRoot = num;
+  while (digitalRoot > 9) {
+    digitalRoot = digitalRoot
+      .toString()
+      .split('')
+      .map(Number)
+      .reduce((acc, digit) => acc + digit, 0);
+  }
+  return digitalRoot;
 }
 
 /**
@@ -320,8 +328,42 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+
+  const bracketPairs = {
+    '[': ']',
+    '(': ')',
+    '{': '}',
+    '<': '>',
+  };
+
+  const allBrackets = new Set(['[', ']', '(', ')', '{', '}', '<', '>']);
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+
+    if (allBrackets.has(char)) {
+      if (char in bracketPairs) {
+        if (bracketPairs[char] !== char) {
+          stack.push(char);
+        } else if (stack.length > 0 && stack[stack.length - 1] === char) {
+          stack.pop();
+        } else {
+          stack.push(char);
+        }
+      } else {
+        if (stack.length === 0) return false;
+
+        const lastIn = stack.pop();
+        if (bracketPairs[lastIn] !== char) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return stack.length === 0;
 }
 
 /**
